@@ -1,0 +1,35 @@
+@page "/escalera"
+
+<h1>Generador de Escalera</h1>
+
+<p>Ingrese el tamaño de la escalera:</p>
+<input type="number" @bind="n" />
+<button @onclick="GenerarEscalera">Generar</button>
+
+<span>@escalera</span>
+
+@code {
+    private int n;
+    private string escalera = "";
+
+    private void GenerarEscalera()
+    {
+        escalera = "";
+        for (int i = 1; i <= n; i++)
+        {
+            // Espacios en blanco
+            for (int j = 0; j < n - i; j++)
+            {
+                escalera += " ";
+            }
+
+            // Símbolos #
+            for (int k = 0; k < i; k++)
+            {
+                escalera += "#";
+            }
+
+            escalera += "\n"; // Nueva línea
+        }
+    }
+}

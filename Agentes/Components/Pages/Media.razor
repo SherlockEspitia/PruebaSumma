@@ -1,0 +1,67 @@
+@page "/medias"
+@rendermode InteractiveServer
+
+<PageTitle>Medias</PageTitle>
+
+<h1> Agente 1 </h1>
+<h2> Medias Estadisticas </h2>
+<p>ingresa numeros enteros con punto como decimal</p>
+<InputNumber @bind-Value="numero"/>
+<button @onclick="Calcular">Agregar</button>
+<button @onclick="Reiniciar">Reiniciar</button>
+<div>
+    <p>Agregados: @Listar()</p>
+    <p>Resultados:</p>
+    <p>Media Aritmética: @mediaAritmetica</p>
+    <p>Media Armónica: @mediaArmonica</p>
+    <p>Mediana: @mediana</p>
+</div>
+
+@code{
+    double numero;
+    List<double> numeros = new List<double>();
+    private double mediaAritmetica;
+    private double mediaArmonica;
+    private double mediana;
+    void Calcular(){
+        numeros.Add(numero);
+        mediaAritmetica = numeros.Average();
+        mediaArmonica = 1 / numeros.Average(x => 1 / x);
+
+        var numerosOrdenados = numeros.OrderBy(x => x).ToList();
+        int n = numerosOrdenados.Count;
+        if (n % 2 == 0)
+        {
+            int mitad = n / 2;
+            mediana = (numerosOrdenados[mitad - 1] + numerosOrdenados[mitad]) / 2;
+        }
+        else
+        {
+            mediana = numerosOrdenados[n / 2];
+        }
+        numero = 0;
+    }
+    
+    void Reiniciar(){
+        numeros.Clear();
+        mediaAritmetica = 0;
+        mediaArmonica = 0;
+        mediana = 0;
+        numero = 0;
+    }
+    string Listar(){
+        string listado = "";
+        if(numeros.Count == 0 ){
+            return "";
+        }else{
+            foreach(var n in numeros){
+                if(numeros.Last() == n){
+                    listado+= n + ".";
+                }else{
+                    listado+= n + "; ";
+                }
+            }
+            return listado;
+        }
+    }
+}
